@@ -177,10 +177,6 @@ function checkDistance() {
   }
 }
 
-function startGame() {
-  moveBaby();
-}
-
 button.addEventListener("click", moveBaby);
 
 game.addEventListener("touchstart", function(e) {
@@ -199,4 +195,9 @@ baby.style.left = babyX + "px";
 baby.style.top = babyY + "px";
 
 mom.style.left = momX + "px";
-mom
+mom.style.top = momY + "px";
+</script>
+
+</body>
+</html>
+
