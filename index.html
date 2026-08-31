@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Mommy Pakdo Baby</title>
 
 <style>
@@ -29,10 +29,10 @@ body {
 
 #title {
   position: absolute;
-  top: 12px;
+  top: 15px;
   width: 100%;
   text-align: center;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bold;
   color: #333;
   z-index: 10;
@@ -43,50 +43,51 @@ body {
   top: 55px;
   left: 15px;
   background: white;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 20px;
   font-weight: bold;
+  font-size: 14px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#message {
+  position: absolute;
+  top: 95px;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
   z-index: 10;
 }
 
 .character {
   position: absolute;
-  font-size: 58px;
-  transition: left 0.08s linear, top 0.08s linear;
+  font-size: 50px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 5;
-}
-
-#baby {
-  z-index: 6;
-}
-
-#mom {
-  z-index: 5;
+  transition: transform 0.05s linear;
 }
 
 #phone {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: white;
+  background: #ff4757;
+  color: white;
   border: none;
   border-radius: 30px;
-  padding: 14px 25px;
-  font-size: 18px;
+  padding: 12px 24px;
+  font-size: 16px;
   font-weight: bold;
   z-index: 20;
-}
-
-#message {
-  position: absolute;
-  top: 105px;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -122,18 +123,19 @@ const button = document.getElementById("phone");
 
 let points = 0;
 
-let babyX = 60;
-let babyY = 220;
+// Screen ke beech mein initial positions set karte hain
+let babyX = window.innerWidth / 2 - 50;
+let babyY = window.innerHeight / 2 - 50;
 
-let momX = 250;
-let momY = 450;
+let momX = window.innerWidth / 2 + 50;
+let momY = window.innerHeight / 2 + 50;
 
 function moveBaby() {
-  const maxX = window.innerWidth - 80;
-  const maxY = window.innerHeight - 150;
+  const maxX = window.innerWidth - 70;
+  const maxY = window.innerHeight - 140;
 
-  babyX = Math.random() * maxX;
-  babyY = 130 + Math.random() * (maxY - 130);
+  babyX = 20 + Math.random() * (maxX - 40);
+  babyY = 140 + Math.random() * (maxY - 180);
 
   baby.style.left = babyX + "px";
   baby.style.top = babyY + "px";
@@ -142,16 +144,14 @@ function moveBaby() {
   pointsText.textContent = points;
 
   message.textContent = "😂 Baby bhaag gaya! Pakdo!";
-
-  checkDistance();
 }
 
 function moveMom() {
   const dx = babyX - momX;
   const dy = babyY - momY;
 
-  momX += dx * 0.08;
-  momY += dy * 0.08;
+  momX += dx * 0.07;
+  momY += dy * 0.07;
 
   mom.style.left = momX + "px";
   mom.style.top = momY + "px";
@@ -165,39 +165,37 @@ function checkDistance() {
     Math.pow(babyY - momY, 2)
   );
 
-  if (distance < 55) {
-    message.textContent = "🎉 Mommy ne Baby ko pakad liya! 🎉";
+  if (distance < 50) {
+    message.textContent = "🎉 Mommy ne pakad liya! 🎉";
     points = 0;
     pointsText.textContent = points;
 
     setTimeout(() => {
       message.textContent = "👶 Baby phir se bhaag gaya!";
       moveBaby();
-    }, 1200);
+    }, 1000);
   }
 }
 
-button.addEventListener("click", moveBaby);
-
-game.addEventListener("touchstart", function(e) {
-  if (e.target === button) return;
+// Button click ya kahin bhi tap karne par baby bhaagega
+button.addEventListener("click", (e) => {
+  e.stopPropagation();
   moveBaby();
 });
 
-game.addEventListener("click", function(e) {
-  if (e.target === button) return;
+game.addEventListener("click", () => {
   moveBaby();
 });
 
-setInterval(moveMom, 100);
+// Game loop
+setInterval(moveMom, 50);
 
+// Initial placement
 baby.style.left = babyX + "px";
 baby.style.top = babyY + "px";
-
 mom.style.left = momX + "px";
 mom.style.top = momY + "px";
 </script>
 
 </body>
 </html>
-
