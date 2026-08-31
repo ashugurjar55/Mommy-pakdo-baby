@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mommy Pakdo Baby</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #87ceeb;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(#70cfff 0%, #d9f7ff 65%, #75d66b 65%);
+}
+
+#title {
+  position: absolute;
+  top: 12px;
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #333;
+  z-index: 10;
+}
+
+#score {
+  position: absolute;
+  top: 55px;
+  left: 15px;
+  background: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.character {
+  position: absolute;
+  font-size: 58px;
+  user-select: none;
+  transition: left 0.08s linear, top 0.08s linear;
+}
+
+#baby {
+  z-index: 5;
+}
+
+#mom {
+  z-index: 4;
+}
+
+#phone
