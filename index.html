@@ -9,6 +9,7 @@
 * {
   box-sizing: border-box;
   touch-action: manipulation;
+  user-select: none;
 }
 
 body {
@@ -23,7 +24,7 @@ body {
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(#70cfff 0%, #d9f7ff 65%, #75d66b 65%);
+  background: linear-gradient(#70cfff, #d9f5ff);
 }
 
 #title {
@@ -51,16 +52,151 @@ body {
 .character {
   position: absolute;
   font-size: 58px;
-  user-select: none;
   transition: left 0.08s linear, top 0.08s linear;
-}
-
-#baby {
   z-index: 5;
 }
 
-#mom {
-  z-index: 4;
+#baby {
+  z-index: 6;
 }
 
-#phone
+#mom {
+  z-index: 5;
+}
+
+#phone {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 20;
+}
+
+#message {
+  position: absolute;
+  top: 105px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  z-index: 10;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+  <div id="title">😂 Mommy Pakdo Baby 😂</div>
+
+  <div id="score">
+    Score: <span id="points">0</span>
+  </div>
+
+  <div id="message">
+    Baby ko pakdo! 👶
+  </div>
+
+  <div id="baby" class="character">👶</div>
+  <div id="mom" class="character">👩</div>
+
+  <button id="phone">📱 RUN BABY!</button>
+
+</div>
+
+<script>
+const game = document.getElementById("game");
+const baby = document.getElementById("baby");
+const mom = document.getElementById("mom");
+const pointsText = document.getElementById("points");
+const message = document.getElementById("message");
+const button = document.getElementById("phone");
+
+let points = 0;
+
+let babyX = 60;
+let babyY = 220;
+
+let momX = 250;
+let momY = 450;
+
+function moveBaby() {
+  const maxX = window.innerWidth - 80;
+  const maxY = window.innerHeight - 150;
+
+  babyX = Math.random() * maxX;
+  babyY = 130 + Math.random() * (maxY - 130);
+
+  baby.style.left = babyX + "px";
+  baby.style.top = babyY + "px";
+
+  points++;
+  pointsText.textContent = points;
+
+  message.textContent = "😂 Baby bhaag gaya! Pakdo!";
+
+  checkDistance();
+}
+
+function moveMom() {
+  const dx = babyX - momX;
+  const dy = babyY - momY;
+
+  momX += dx * 0.08;
+  momY += dy * 0.08;
+
+  mom.style.left = momX + "px";
+  mom.style.top = momY + "px";
+
+  checkDistance();
+}
+
+function checkDistance() {
+  const distance = Math.sqrt(
+    Math.pow(babyX - momX, 2) +
+    Math.pow(babyY - momY, 2)
+  );
+
+  if (distance < 55) {
+    message.textContent = "🎉 Mommy ne Baby ko pakad liya! 🎉";
+    points = 0;
+    pointsText.textContent = points;
+
+    setTimeout(() => {
+      message.textContent = "👶 Baby phir se bhaag gaya!";
+      moveBaby();
+    }, 1200);
+  }
+}
+
+function startGame() {
+  moveBaby();
+}
+
+button.addEventListener("click", moveBaby);
+
+game.addEventListener("touchstart", function(e) {
+  if (e.target === button) return;
+  moveBaby();
+});
+
+game.addEventListener("click", function(e) {
+  if (e.target === button) return;
+  moveBaby();
+});
+
+setInterval(moveMom, 100);
+
+baby.style.left = babyX + "px";
+baby.style.top = babyY + "px";
+
+mom.style.left = momX + "px";
+mom
